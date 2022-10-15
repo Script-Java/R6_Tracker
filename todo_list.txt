@@ -1,0 +1,7 @@
+- self to all object variables
+- create new features
+- create function that gets current rank
+- create Error catching
+- create GUI
+- create Terminal useablitiy
+- finish main.py

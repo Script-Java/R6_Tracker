@@ -1,2 +1,0 @@
-- self to all object variables
-- create new features
