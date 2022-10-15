@@ -1,6 +1,8 @@
 # R6_Tracker 
 ### For Personal and Educational Use Only
+
 ![r6 logo](https://www.pngkit.com/png/full/308-3083447_logo-kaeo-r6-pro-league-logo.png)
+
 - I am Learning web scraping with python and decided to practice with my favorite game that I have decided to turn into a python library.
 - Creating this project using:
     - Streamlit
