@@ -1,1 +1,34 @@
-Coming sooooonnnn.......
+If you using main.py.....
+enter gamertag and platform inside the console and wait for the data to pour out
+
+what the data looks like : 
+stats_stored = {
+    "gamertag": player_tag,
+    "best_mmr": best_mmr,
+    "level": player_level,
+    "seasonal_mmr": avg_seasonal_mmr,
+    "total_matches": total_matches,
+    "total_wins": total_wins,
+    "win_ratio": player_win_ratio,
+    "total_kills": player_total_kills,
+    "player_kd": player_kd,
+    "pfp_src": user_pfp_link,
+    "rank_title": rank_name,
+    "best_rank_src": rank_src
+        }
+
+top3_stored = {
+            "op_names": top3_list,
+            "op_img_src": top3_src
+        }
+
+ ranked_stored = {
+            "wins": ranked_wins,
+            "losses": ranked_loss,
+            "matches": ranked_matches,
+            "deaths": ranked_deaths,
+            "kills": ranked_kills,
+            "win_ratio": ranked_win_ratio,
+            "kd": ranked_kd,
+            "kpm": ranked_kill_per_match
+        }

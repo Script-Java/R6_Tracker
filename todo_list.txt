@@ -3,5 +3,7 @@
 - create function that gets current rank
 - create Error catching
 - create GUI
+
+-------- DONE ---------
 - create Terminal useablitiy
 - finish main.py
