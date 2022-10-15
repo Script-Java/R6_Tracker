@@ -1,11 +1,14 @@
-from tkinter.tix import COLUMN
+import string
 from bs4 import BeautifulSoup
 import requests
 import streamlit as st
 import urllib.request
+from io import BytesIO
 from PIL import Image
 
 class R6tracker:
+    # grabs name and plat form
+    #creates a connection with the website
     def __init__(self,name,platform):
         self.name = name
         self.platform = platform
@@ -13,42 +16,48 @@ class R6tracker:
         self.response = requests.get(self.r6_website)
         self.soup = BeautifulSoup(self.response.text, "html.parser")
         
-        # Basic user information in the overview section from r6 tracker
-        user_gamer_tag = self.soup.find("span", {"class":"trn-profile-header__name"}).string
+    def general_info(self):
+        # user name
+        # gamer Tag
+        player_tag = self.soup.find("div", {"class":"trn-profile-header__name"})
+        stat_value_div = self.soup.findAll("div", {"class":"trn-defstat__value-stylized"})
+        stat_value = []
+        for stat_value_data in stat_value_div:
+            if stat_value_data["class"] == "trn-defstat__value-stylized" or "trn-defstat__value":
+                stat_value.append(stat_value_data.string)
+        best_mmr = stat_value[0]
+        player_level = stat_value[1]
+        avg_seasonal_mmr = stat_value[2]
+        total_wins = self.soup.find("div", {"data-stat":"PVPMatchesWon"})
+        player_win_ratio = self.soup.find("div", {"data-stat":"PVPWLRatio"})
+        player_total_kills = self.soup.find("div", {"data-stat":"PVPKills"})
+        player_kd = self.soup.find("div", {"data-stat":"PVPKDRatio"})
+        
         # retiving user PFP
+        # Grab the image container 
+        # Then find the img element inside it and with that access the src
         user_profile_img_container = self.soup.find("div", {"class": "trn-profile-header__avatar trn-roundavatar trn-roundavatar--white"})
         user_profile = user_profile_img_container.find("img", recursive=False)
         user_pfp_link = user_profile["src"]
-        urllib.request.urlretrieve(user_pfp_link, "pfp.png")
-        img = Image.open("pfp.png")
-    
-        # overall stats and basic stats
-        user_total_matches = self.soup.find("div", {"class":"trn-card__header-subline"}).string
-        user_total_wins = self.soup.find("div", {"data-stat":"PVPMatchesWon"}).string
-        user_total_win_ratio = self.soup.find("div", {"data-stat":"PVPWLRatio"}).string
-        user_total_kills = self.soup.find("div", {"data-stat": "PVPKills"}).string
-        user_total_kill_ratio = self.soup.find("div", {"data-stat": "PVPKDRatio"}).string
         
-        #streamlit setup here
-        st.image(img)
-        st.write(f"Total Mathces Played: ```{user_total_matches}```")
-        col2,col3,col4,col5 = st.columns(4)
-        col2.metric("Total Wins", user_total_wins, "")
-        col3.metric("Total win %", user_total_win_ratio)
-        col4.metric("Total Kills", user_total_kills)
-        col5.metric("KD", user_total_kill_ratio)
+        # user PFP optional
+        # grabs link and converts into readable data
+        response = requests.get(user_pfp_link)
         
-    def get_seasons():
-        pass
-    
-    def get_recently_played_with():
-        pass
-    
-    def get_mmr_history():
-        pass
-    
-    
+        # pfp Ready.......
+        pfp = Image.open(BytesIO(response.content))
         
-R6tracker("BroooGimmeEla", "pc")
+        # Find Rank Banner
+        #gets best rank
+        best_rank_container = self.soup.find("div", {"class": "trn-card__content trn-card--light trn-defstats-flex pt8 pb8"})
+        rank_el = best_rank_container.find("img", recursive=False)
+        rank_name = rank_el["title"]
+        rank_src = user_profile["src"]
+        response2 = requests.get(user_pfp_link)
+        
+        # The rank Img rady.......
+        best_rank = Image.open(BytesIO(response2.content))
+        
+R6tracker("BroooGimmeEla", "pc").general_info()
         
         
